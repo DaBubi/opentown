@@ -7,8 +7,8 @@ BIN_DIR="$INSTALL_DIR/bin"
 LIB_DIR="$INSTALL_DIR/lib/opentown"
 
 mkdir -p "$BIN_DIR"
-rm -rf "$LIB_DIR"
-cp -r "$SCRIPT_DIR/opentown" "$LIB_DIR"
+mkdir -p "$LIB_DIR"
+cp -r "$SCRIPT_DIR/opentown"/* "$LIB_DIR/"
 
 cat > "$BIN_DIR/ot" << EOF
 #!/bin/bash
