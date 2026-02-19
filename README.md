@@ -6,7 +6,7 @@ Multi-opencode agent orchestrator - run multiple opencode instances in parallel 
 
 ```bash
 # Install
-pip install opentown
+./install.sh
 
 # Initialize in your project
 cd your-project
