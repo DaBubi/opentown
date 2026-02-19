@@ -93,13 +93,25 @@ def complete_task() -> None:
     state = load_state()
     tasks = load_tasks()
 
-    current_task_id = state.get("current_task")
+    if not state or not tasks:
+        print("No state or tasks found.")
+        return
 
-    for task in tasks["tasks"]:
+    current_task_id = state.get("current_task")
+    if not current_task_id:
+        print("No current task to complete.")
+        return
+
+    task_title = None
+    for task in tasks.get("tasks", []):
         if task["id"] == current_task_id:
             task["status"] = "done"
             task_title = task["title"]
             break
+
+    if not task_title:
+        print(f"Task {current_task_id} not found.")
+        return
 
     save_tasks(tasks)
 
@@ -108,19 +120,19 @@ def complete_task() -> None:
 
     new_lines = []
     in_next = False
-    task_moved = False
+    added_to_done = False
 
     for line in lines:
         if "## Done" in line:
             in_next = False
             new_lines.append(line)
-            if not task_moved:
+            if not added_to_done:
                 new_lines.append(f"- [x] {task_title}")
-                task_moved = True
+                added_to_done = True
         elif "## Next" in line:
             in_next = True
             new_lines.append(line)
-        elif in_next and not task_moved and task_title.lower() in line.lower():
+        elif in_next and task_title.lower() in line.lower():
             continue
         else:
             new_lines.append(line)

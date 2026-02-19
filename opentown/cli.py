@@ -109,5 +109,13 @@ def qa():
     run_qa()
 
 
+@main.command()
+def complete():
+    """Mark current task as complete and cleanup."""
+    from .roles.qa import complete_task
+
+    complete_task()
+
+
 if __name__ == "__main__":
     main()
