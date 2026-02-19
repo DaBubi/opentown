@@ -4,15 +4,15 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 INSTALL_DIR="$HOME/.local"
 BIN_DIR="$INSTALL_DIR/bin"
-LIB_DIR="$INSTALL_DIR/lib/opentown"
+LIB_DIR="$INSTALL_DIR/lib"
 
 mkdir -p "$BIN_DIR"
 mkdir -p "$LIB_DIR"
-cp -r "$SCRIPT_DIR/opentown"/* "$LIB_DIR/"
+cp -r "$SCRIPT_DIR/opentown" "$LIB_DIR/"
 
 cat > "$BIN_DIR/ot" << EOF
 #!/bin/bash
-exec python3 "$LIB_DIR/cli.py" "\$@"
+exec python3 -c "import sys; sys.path.insert(0, '$LIB_DIR'); from opentown.cli import main; main()" "\$@"
 EOF
 chmod +x "$BIN_DIR/ot"
 
